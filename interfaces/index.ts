@@ -38,6 +38,7 @@ export interface PropertyProps {
   description?: string;   
   imageUrl?: string;
 
+  reviews?: Review[];
   
 }
 
@@ -46,3 +47,18 @@ export type PillProps = {
   active?: boolean;
   onClick?: () => void;
 };
+
+// Example in types.ts or your component
+export interface Review {
+  name: string;
+  avatar: string;
+  rating: number;
+  comment: string;
+}
+
+export interface Property {
+  name: string;
+  price: number;
+  // other existing fields...
+  reviews?: Review[]; // Add this line
+}

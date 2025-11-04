@@ -1,26 +1,25 @@
 ﻿import React, { useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import { Card } from "@/components/common/Card";
-import Button from "@/components/common/Button";
 import Pill from "@/components/common/Pill";
+import Button from "@/components/common/Button";
 import { IMAGES } from "@/constants/images";
-
-const sampleListings = [
-  { id: 1, title: "Cozy studio near downtown", description: "Perfect for short stays — 1 bed, 1 bath", imageUrl: "/assets/images/cozy-studio.png", category: ["Studio"] },
-  { id: 2, title: "Bright apartment with balcony", description: "2 beds, great light, fast Wi-Fi", imageUrl: "/assets/images/bright-apartment.jpg", category: ["Apartment"] },
-  { id: 3, title: "Modern loft", description: "Open plan, great for photoshoots", imageUrl: "/assets/images/modern-loft.jpg", category: ["Loft"] },
-];
-
-// Define filter options
-const FILTERS = ["Studio", "Apartment", "Loft"];
+import { PROPERTYLISTINGSAMPLE, FILTERS } from "@/constants";
 
 const Home: React.FC = () => {
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
+  const router = useRouter();
 
-  // Filter listings based on active filter
+  // Filter properties based on category
   const filteredListings = activeFilter
-    ? sampleListings.filter(l => l.category.includes(activeFilter))
-    : sampleListings;
+    ? PROPERTYLISTINGSAMPLE.filter(property => property.category.includes(activeFilter))
+    : PROPERTYLISTINGSAMPLE;
+
+  // Navigate to property detail page
+  const goToProperty = (name: string) => {
+    router.push(`/property/${encodeURIComponent(name)}`);
+  };
 
   return (
     <>
@@ -58,13 +57,14 @@ const Home: React.FC = () => {
       {/* Listings Section */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <section className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-          {filteredListings.map(l => (
+          {filteredListings.map(property => (
             <Card
-              key={l.id}
-              id={String(l.id)}
-              title={l.title}
-              description={l.description}
-              imageUrl={l.imageUrl}
+              key={property.name}
+              id={String(property.name)}
+              title={property.name}
+              description={`$${property.price} / night • ${property.address.city}, ${property.address.country}`}
+              imageUrl={property.image}
+              onViewDetails={() => goToProperty(property.name)} // Pass callback to Card
             />
           ))}
         </section>

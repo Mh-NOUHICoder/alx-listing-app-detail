@@ -11,8 +11,10 @@ const Header: React.FC = () => {
         <div className="flex justify-between items-center py-4">
           {/* Logo */}
           <div className="flex items-center space-x-2">
-            <Home className="w-7 h-7 text-indigo-600" />
+            <a href="/" className="flex items-center space-x-2">
+              <Home className="w-7 h-7 text-indigo-600" />
             <span className="text-2xl font-bold text-gray-800">Listing-App</span>
+            </a>
           </div>
 
           {/* Search Bar */}
